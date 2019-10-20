@@ -20,6 +20,30 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable,Category=Control)
+	void SetRotate(bool doRotate);
+
+	//Go to next rotation
+	UFUNCTION(BlueprintCallable, Category = Control)
+	bool NextRotation();
+
+	//Go Reset to first rotation
+	UFUNCTION(BlueprintCallable, Category = Control)
+	bool ResetRotation();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Custom)
-	FRotator	RotateValue;
+	TArray<FRotator>	RotateValues;
+
+private:
+	bool	doRotationFlag = false;	//Should we be rotating flag
+
+	int		CurrentStep = 0;	//Current Step in rotation array
+
+
+	int		NextIndex();	//Get Next Index but loop at end of array
+
+	FRotator	FromRotation; //Start of LERP
+	FRotator	ToRotation;		//End of LERP
+	float	CurrentLERP = 0.0;	//Where we are within the step 0.0 = start 1.0 = end 
+
 };
